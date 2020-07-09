@@ -8,13 +8,16 @@
 
 import SwiftUI
 import Firebase
+import FirebaseStorage
+import FirebaseFirestore
+
 
 struct ContentView: View {
     @State var status = UserDefaults.standard.value(forKey: "status") as? Bool ??
     false
     var body: some View {
         VStack{
-            if status{
+          if status{
                
                 Home()
             }
@@ -22,7 +25,9 @@ struct ContentView: View {
                 NavigationView{
                  FirstPage()
             }
-          }
+            }
+            
+           
         }.onAppear{
             NotificationCenter.default.addObserver(forName: NSNotification.Name("statusChanage"), object: nil, queue: .main){
                 (_)in
@@ -76,7 +81,7 @@ struct FirstPage : View {
                   }.padding(.top ,15)
             NavigationLink(destination:SecondPage(show:$show, ID:$ID) ,isActive: $show){
                 Button(action:{
-                    PhoneAuthProvider.provider().verifyPhoneNumber("+"+self.ccode+self.no, uiDelegate:nil){
+                    Auth.auth().settings?.isAppVerificationDisabledForTesting = true; PhoneAuthProvider.provider().verifyPhoneNumber("+"+self.ccode+self.no, uiDelegate:nil){
                         (ID,err)in
                         if err != nil{
                             self.msg = (err?.localizedDescription)!
@@ -118,7 +123,10 @@ struct SecondPage : View {
      @Binding var ID :String
      @State var msg = ""
      @State var alert = false
-    
+     @State var creation = false
+     @State var loading = false
+       
+        
     var body :some View {
         
         ZStack(alignment:.topLeading) {
@@ -138,10 +146,19 @@ struct SecondPage : View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .padding(.top ,15)
                                     
-                               
-
-                           
+                    if self.loading{
+                        HStack{
+                            Spacer()
+                            Indicator()
+                            Spacer()
+                        }
+                    }
+                    else{
+                        
                           Button(action:{
+                              self.loading.toggle()
+                            
+ 
                             let credential =
                             PhoneAuthProvider.provider().credential(withVerificationID: self.ID, verificationCode: self.code)
                             
@@ -149,11 +166,25 @@ struct SecondPage : View {
                                 if err != nil{
                                     self.msg = (err?.localizedDescription)!
                                     self.alert.toggle()
+                                    self.loading.toggle()
                                     return
                                     
                                 }
-                                  UserDefaults.standard.set(true, forKey: "status")
-                              NotificationCenter.default.post(name:NSNotification.Name("statusChanage"),object:nil)
+                              
+                                
+                                checkUser{(exists,user)in
+                                    if exists{
+                                    UserDefaults.standard.set(true, forKey: "status")
+                                    UserDefaults.standard.set(user, forKey: "UserName")
+                                NotificationCenter.default.post(name:NSNotification.Name("statusChanage"),object:nil)
+
+                                    }
+                                    else{
+                                        self.loading.toggle()
+                                        self.creation.toggle()
+                                        
+                                    }
+                                }
                             }
                             
                           }){
@@ -161,10 +192,7 @@ struct SecondPage : View {
                                      }.foregroundColor(.white)
                                          .background(Color.orange)
                                          .cornerRadius(10)
-                           .navigationBarTitle("")
-                           .navigationBarHidden(true)
-                           .navigationBarBackButtonHidden(true)
-
+                    }
 
                 }
             }
@@ -178,8 +206,15 @@ struct SecondPage : View {
             
         }
         .padding()
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+
         .alert(isPresented: $alert) {
             Alert(title: Text("Error"), message: Text(self.msg),dismissButton:.default(Text("OK")))
+        }
+        .sheet(isPresented: self.$creation){
+            AccountCreation(show: self.$creation)
         }
     }
 }
@@ -187,7 +222,7 @@ struct SecondPage : View {
 struct Home : View {
     var body : some View {
         VStack{
-            Text("Home")
+            Text("Welcome\(UserDefaults.standard.value(forKey: "UserName")as! String)")
             
             Button(action:{
                 try! Auth.auth().signOut()
@@ -201,3 +236,215 @@ struct Home : View {
         }
     }
 }
+
+
+func checkUser(completion: @escaping (Bool,String)->Void){
+    
+    let db = Firestore.firestore()
+    db.collection("users").getDocuments {(snap,err)in
+        if err != nil{
+            print((err?.localizedDescription))
+            return
+        }
+        for i in snap!.documents{
+            
+            if i.documentID == Auth.auth().currentUser?.uid{
+                completion(true,i.get("name")as!String)
+                return
+            }
+        }
+        
+        completion(false,"")
+    }
+}
+
+struct AccountCreation:View {
+    @Binding var show :Bool
+    @State var name = ""
+    @State var about = ""
+    @State var picker = false
+    @State var loading = false
+    @State var imagedata : Data = .init(count:0)
+    @State var alert = false
+    
+    
+    var body : some View {
+        VStack(alignment: .leading, spacing: 15){
+            Text("Awsome !!! Create An Account").font(.title)
+            HStack{
+                Spacer()
+                Button(action:{
+                    
+                    self.picker.toggle()
+                }){
+                    if self.imagedata.count == 0 {
+                        Image(systemName:"person.crop.circle.badge.plus").resizable().frame(width:90, height: 70).foregroundColor(.gray)
+                        
+                    }else{
+                        Image(uiImage:UIImage (data: self.imagedata)!).resizable().renderingMode(.original)
+                            .frame(width:90,height: 90).clipShape(Circle())
+                    }
+                    
+                }
+                
+                Spacer()
+            }
+        
+            .padding(.vertical,15)
+            Text ("Enter User Name")
+                .font(.body)
+                .foregroundColor(.gray)
+                .padding(.top,12)
+               
+                        
+            TextField("Name",text: self.$name)
+                            .padding()
+                            .background(Color("Color"))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .padding(.top ,15)
+            Text ("About You")
+                .font(.body)
+                .foregroundColor(.gray)
+                .padding(.top,12)
+               
+                        
+            TextField("About",text: self.$about)
+                            .padding()
+                            .background(Color("Color"))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .padding(.top ,15)
+            if self.loading{
+                HStack{
+                    Spacer()
+                    Indicator()
+                    Spacer()
+                }
+            }
+            else{
+                Button(action:{
+                    
+                    if self.name != "" && self.about != "" && self.imagedata.count != 0{
+                         self.loading.toggle()
+                        CreateUser(name: self.name, about: self.about, imagedata: self.imagedata){ (status) in
+                            
+                            if status{
+                                self.show.toggle()
+                            }
+                        }
+                    }else{
+                        self.alert.toggle()
+                    }
+                   
+                       }){
+                           Text("Create").frame(width:UIScreen.main.bounds.width - 30 ,height:50)
+                           }.foregroundColor(.white)
+                               .background(Color.orange)
+                               .cornerRadius(10)
+            }
+            
+       
+        }
+    .padding()
+        .sheet(isPresented: self.$picker, content: {
+            ImagePicker(picker: self.$picker, imagedata: self.$imagedata)
+        })
+        .alert(isPresented: self.$alert){
+                Alert(title: Text("Message"), message: Text("Please fill the content"),dismissButton:.default(Text("OK")))
+        }
+    }
+}
+
+struct Indicator:UIViewRepresentable {
+    func makeUIView(context: UIViewRepresentableContext<Indicator>) -> Indicator.UIViewType {
+        let indicator = UIActivityIndicatorView(style:.large)
+        return indicator
+    }
+    
+    func updateUIView(_ uiView:UIActivityIndicatorView, context: UIViewRepresentableContext<Indicator>) {
+    
+     }
+    }
+
+func CreateUser(name:String,about:String,imagedata:Data,completion :@escaping
+    (Bool)->Void)
+  {
+    
+    let db = Firestore.firestore()
+    let storage = Storage.storage().reference()
+    let uid = Auth.auth().currentUser?.uid
+    storage.child("profilepics").child(uid!).putData(imagedata, metadata:nil){(_,err)in
+        
+        if err  != nil{
+            
+            print((err?.localizedDescription))
+            return
+        }
+        
+        storage.child("profilepics").child(uid!).downloadURL{(url,err)in
+            if err != nil{
+               print((err?.localizedDescription))
+                return
+
+            }
+            db.collection("users").document(uid!).setData(
+            ["name":name,"about":about,"pic":"\(url!)","uid":uid!]){
+                (err)in
+                
+                if err != nil{
+                    print((err?.localizedDescription))
+                    return
+                    
+                }
+                completion(true)
+                UserDefaults.standard.set(true, forKey: "status")
+                UserDefaults.standard.set(name, forKey: "UserName")
+                                               
+           NotificationCenter.default.post(name:NSNotification.Name("statusChanage"),object:nil)
+            }
+        }
+        
+    }
+    
+}
+
+struct ImagePicker:UIViewControllerRepresentable {
+    @Binding var picker : Bool
+    @Binding var imagedata: Data
+    func makeCoordinator() -> ImagePicker.Coordinator {
+        
+        return ImagePicker.Coordinator(parent1: self)
+    }
+    
+    func makeUIViewController(context:
+        UIViewControllerRepresentableContext<ImagePicker>) ->
+        UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.delegate = context.coordinator
+        return picker
+    }
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
+        
+       }
+    class Coordinator:
+    NSObject,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
+        var parent : ImagePicker
+        init(parent1:ImagePicker){
+            parent  = parent1
+        }
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            self.parent.picker.toggle()
+        }
+        
+         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            let image = info[.originalImage]as!UIImage
+            let data = image.jpegData(compressionQuality: 0.45)
+            self.parent.imagedata = data!
+            self.parent.picker.toggle()
+        }
+        
+     }
+      
+    }
+    
+

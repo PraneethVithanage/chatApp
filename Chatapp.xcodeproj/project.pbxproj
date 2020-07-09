@@ -44,6 +44,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F6427A624B7997000EAC752 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1F6427A724B7997900EAC752 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		1FB027D024B5CBC400EBEF77 = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +79,8 @@
 		1FB027DB24B5CBC400EBEF77 /* Chatapp */ = {
 			isa = PBXGroup;
 			children = (
+				1F6427A724B7997900EAC752 /* Model */,
+				1F6427A624B7997000EAC752 /* Views */,
 				1FB027DC24B5CBC400EBEF77 /* AppDelegate.swift */,
 				1FB027DE24B5CBC400EBEF77 /* SceneDelegate.swift */,
 				1FB027E024B5CBC400EBEF77 /* ContentView.swift */,
