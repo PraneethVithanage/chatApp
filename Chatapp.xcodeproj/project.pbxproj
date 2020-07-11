@@ -3,10 +3,19 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F0AC5CA24B825A0009F52D1 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0AC5C924B825A0009F52D1 /* ImagePicker.swift */; };
+		1F0AC5CE24B8278B009F52D1 /* AccountCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0AC5CD24B8278B009F52D1 /* AccountCreation.swift */; };
+		1F0AC5D024B827A2009F52D1 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0AC5CF24B827A2009F52D1 /* Home.swift */; };
+		1F0AC5D424B827D8009F52D1 /* SecondPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0AC5D324B827D8009F52D1 /* SecondPage.swift */; };
+		1F0AC5D624B827E9009F52D1 /* FirstPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0AC5D524B827E9009F52D1 /* FirstPage.swift */; };
+		1F0AC5DA24B82A1A009F52D1 /* Indicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0AC5D924B82A1A009F52D1 /* Indicator.swift */; };
+		1F0AC5DC24B82DD5009F52D1 /* CheckUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0AC5DB24B82DD5009F52D1 /* CheckUser.swift */; };
+		1F0AC5E124B83FD5009F52D1 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1F0AC5E024B83FD5009F52D1 /* SDWebImageSwiftUI */; };
+		1F0AC5E424B878DA009F52D1 /* createUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0AC5E324B878DA009F52D1 /* createUser.swift */; };
 		1FB027DD24B5CBC400EBEF77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB027DC24B5CBC400EBEF77 /* AppDelegate.swift */; };
 		1FB027DF24B5CBC400EBEF77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB027DE24B5CBC400EBEF77 /* SceneDelegate.swift */; };
 		1FB027E124B5CBC400EBEF77 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB027E024B5CBC400EBEF77 /* ContentView.swift */; };
@@ -18,6 +27,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F0AC5C924B825A0009F52D1 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		1F0AC5CD24B8278B009F52D1 /* AccountCreation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCreation.swift; sourceTree = "<group>"; };
+		1F0AC5CF24B827A2009F52D1 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		1F0AC5D324B827D8009F52D1 /* SecondPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondPage.swift; sourceTree = "<group>"; };
+		1F0AC5D524B827E9009F52D1 /* FirstPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPage.swift; sourceTree = "<group>"; };
+		1F0AC5D924B82A1A009F52D1 /* Indicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Indicator.swift; sourceTree = "<group>"; };
+		1F0AC5DB24B82DD5009F52D1 /* CheckUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckUser.swift; sourceTree = "<group>"; };
+		1F0AC5E324B878DA009F52D1 /* createUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createUser.swift; sourceTree = "<group>"; };
 		1FB027D924B5CBC400EBEF77 /* Chatapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chatapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FB027DC24B5CBC400EBEF77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FB027DE24B5CBC400EBEF77 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F0AC5E124B83FD5009F52D1 /* SDWebImageSwiftUI in Frameworks */,
 				715DB765CBAFB2AEF7E59B6E /* Pods_Chatapp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -47,6 +65,12 @@
 		1F6427A624B7997000EAC752 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1F0AC5C924B825A0009F52D1 /* ImagePicker.swift */,
+				1F0AC5D924B82A1A009F52D1 /* Indicator.swift */,
+				1F0AC5CD24B8278B009F52D1 /* AccountCreation.swift */,
+				1F0AC5CF24B827A2009F52D1 /* Home.swift */,
+				1F0AC5D324B827D8009F52D1 /* SecondPage.swift */,
+				1F0AC5D524B827E9009F52D1 /* FirstPage.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -54,6 +78,8 @@
 		1F6427A724B7997900EAC752 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1F0AC5DB24B82DD5009F52D1 /* CheckUser.swift */,
+				1F0AC5E324B878DA009F52D1 /* createUser.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -136,6 +162,9 @@
 			dependencies = (
 			);
 			name = Chatapp;
+			packageProductDependencies = (
+				1F0AC5E024B83FD5009F52D1 /* SDWebImageSwiftUI */,
+			);
 			productName = Chatapp;
 			productReference = 1FB027D924B5CBC400EBEF77 /* Chatapp.app */;
 			productType = "com.apple.product-type.application";
@@ -164,6 +193,9 @@
 				Base,
 			);
 			mainGroup = 1FB027D024B5CBC400EBEF77;
+			packageReferences = (
+				1F0AC5DF24B83FD5009F52D1 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			productRefGroup = 1FB027DA24B5CBC400EBEF77 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -235,8 +267,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FB027DD24B5CBC400EBEF77 /* AppDelegate.swift in Sources */,
+				1F0AC5CA24B825A0009F52D1 /* ImagePicker.swift in Sources */,
+				1F0AC5CE24B8278B009F52D1 /* AccountCreation.swift in Sources */,
 				1FB027DF24B5CBC400EBEF77 /* SceneDelegate.swift in Sources */,
+				1F0AC5E424B878DA009F52D1 /* createUser.swift in Sources */,
+				1F0AC5D424B827D8009F52D1 /* SecondPage.swift in Sources */,
+				1F0AC5D624B827E9009F52D1 /* FirstPage.swift in Sources */,
 				1FB027E124B5CBC400EBEF77 /* ContentView.swift in Sources */,
+				1F0AC5DC24B82DD5009F52D1 /* CheckUser.swift in Sources */,
+				1F0AC5DA24B82A1A009F52D1 /* Indicator.swift in Sources */,
+				1F0AC5D024B827A2009F52D1 /* Home.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,6 +472,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1F0AC5DF24B83FD5009F52D1 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1F0AC5E024B83FD5009F52D1 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F0AC5DF24B83FD5009F52D1 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1FB027D124B5CBC400EBEF77 /* Project object */;
 }
